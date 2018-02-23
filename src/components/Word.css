@@ -1,0 +1,11 @@
+.remove {
+  display: none;
+  cursor: pointer;
+  @nest li:hover & {
+    display: inline-block;
+  }
+
+  &:hover {
+    color: tomato;
+  }
+}

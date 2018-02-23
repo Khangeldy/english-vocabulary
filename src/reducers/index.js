@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import WordReducers from './words'
+import words from './words'
+import quiz from './quiz'
 
 const reducers = combineReducers({
-  WordReducers
+  words,
+  quiz
 })
 
 export default reducers;

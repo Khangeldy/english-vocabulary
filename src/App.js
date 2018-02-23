@@ -1,35 +1,54 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, NavLink } from 'react-router-dom'
-import './App.css';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { connect } from 'react-redux';
+import styles from './App.css';
+import { loadInitialAction } from './actions/wordActions'
 
 // Routes
 import HomeContainer from './Routes/HomeContainer'
-import Testing from './Routes/Testing'
+import QuizContainer from './Routes/QuizContainer'
 import NoMatch from './Routes/NoMatch'
 
 // UI
-import A from './ui/A'
+import MenuLink from './ui/MenuLink'
 
 class App extends Component {
+  componentDidMount() {
+    import('./api/words.json').then(response => {
+      this.props.initialLoad(response)
+    })
+  }
+
   render() {
     return (
       <Router>
-        <div className="App">
-          <header className="App-header">
+        <div className={styles.App}>
+          <header className={styles.AppHeader}>
             <ul>
-              <A to="/" exact={true} >Go Home</A>
-              <A to="/test">Testing Page</A>
+              <MenuLink to="/" exact={true} >Go Home</MenuLink>
+              <MenuLink to="/test">Testing Page</MenuLink>
             </ul>
           </header>
-          <Switch className="App-intro">
-            <Route path="/" exact component={HomeContainer} />
-            <Route path="/test" component={Testing} />
-            <Route component={NoMatch} />
-          </Switch>
+          <div className={styles.AppIntro}>
+            <Switch>
+              <Route path="/" exact component={HomeContainer} />
+              <Route path="/test" component={QuizContainer} />
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
         </div>
       </Router>
     );
   }
 }
 
-export default App;
+export default connect(
+  (state) => {
+    return {}
+  },
+  (dispatch) => {
+    return {
+      initialLoad: (state) => dispatch(loadInitialAction(state))
+    }
+  }
+)(App);
